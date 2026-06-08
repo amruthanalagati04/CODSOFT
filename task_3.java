@@ -1,7 +1,6 @@
 import java.util.Scanner;
 
 class BankAccount {
-
     private double balance;
 
     public BankAccount(double balance) {
@@ -13,28 +12,23 @@ class BankAccount {
     }
 
     public void deposit(double amount) {
-
         if (amount > 0) {
             balance += amount;
             System.out.println("Deposited: " + amount);
-        } else {
-            System.out.println("Invalid amount!");
         }
     }
 
     public void withdraw(double amount) {
-
-        if (amount <= balance && amount > 0) {
+        if (amount > 0 && amount <= balance) {
             balance -= amount;
             System.out.println("Withdrawn: " + amount);
         } else {
-            System.out.println("Insufficient balance or invalid amount!");
+            System.out.println("Insufficient balance!");
         }
     }
 }
 
 class ATM {
-
     private BankAccount account;
 
     public ATM(BankAccount account) {
@@ -42,36 +36,31 @@ class ATM {
     }
 
     public void showMenu() {
-
         Scanner sc = new Scanner(System.in);
         int choice;
 
         do {
-            System.out.println("\n===== ATM MENU =====");
-            System.out.println("1. Check Balance");
-            System.out.println("2. Deposit");
-            System.out.println("3. Withdraw");
-            System.out.println("4. Exit");
+            System.out.println("\n1.Check Balance");
+            System.out.println("2.Deposit");
+            System.out.println("3.Withdraw");
+            System.out.println("4.Exit");
 
             System.out.print("Enter choice: ");
             choice = sc.nextInt();
 
             switch (choice) {
-
                 case 1:
                     System.out.println("Balance: " + account.getBalance());
                     break;
 
                 case 2:
-                    System.out.print("Enter amount to deposit: ");
-                    double deposit = sc.nextDouble();
-                    account.deposit(deposit);
+                    System.out.print("Enter deposit amount: ");
+                    account.deposit(sc.nextDouble());
                     break;
 
                 case 3:
-                    System.out.print("Enter amount to withdraw: ");
-                    double withdraw = sc.nextDouble();
-                    account.withdraw(withdraw);
+                    System.out.print("Enter withdraw amount: ");
+                    account.withdraw(sc.nextDouble());
                     break;
 
                 case 4:
@@ -79,25 +68,16 @@ class ATM {
                     break;
 
                 default:
-                    System.out.println("Invalid choice!");
+                    System.out.println("Invalid Choice!");
             }
-
         } while (choice != 4);
-
-        sc.close();
     }
 }
 
-public class ATMInterface {
-
+public class Main {
     public static void main(String[] args) {
-
-        BankAccount userAccount = new BankAccount(1000);
-
-        ATM atm = new ATM(userAccount);
-
+        BankAccount account = new BankAccount(1000);
+        ATM atm = new ATM(account);
         atm.showMenu();
     }
 }
-
-
