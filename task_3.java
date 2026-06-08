@@ -1,83 +1,101 @@
 import java.util.Scanner;
 
+// Bank Account Class
 class BankAccount {
-    private double balance;
+    double balance;
 
-    public BankAccount(double balance) {
+    BankAccount(double balance) {
         this.balance = balance;
     }
 
-    public double getBalance() {
-        return balance;
+    void deposit(double amount) {
+        balance += amount;
+        System.out.println("Amount Deposited Successfully!");
     }
 
-    public void deposit(double amount) {
-        if (amount > 0) {
-            balance += amount;
-            System.out.println("Deposited: " + amount);
-        }
-    }
-
-    public void withdraw(double amount) {
-        if (amount > 0 && amount <= balance) {
+    void withdraw(double amount) {
+        if (amount <= balance) {
             balance -= amount;
-            System.out.println("Withdrawn: " + amount);
+            System.out.println("Amount Withdrawn Successfully!");
         } else {
-            System.out.println("Insufficient balance!");
+            System.out.println("Insufficient Balance!");
         }
+    }
+
+    void checkBalance() {
+        System.out.println("Current Balance: ₹" + balance);
     }
 }
 
+// ATM Class
 class ATM {
-    private BankAccount account;
+    BankAccount account;
+    Scanner sc = new Scanner(System.in);
 
-    public ATM(BankAccount account) {
+    ATM(BankAccount account) {
         this.account = account;
     }
 
-    public void showMenu() {
-        Scanner sc = new Scanner(System.in);
+    void showMenu() {
         int choice;
 
         do {
-            System.out.println("\n1.Check Balance");
-            System.out.println("2.Deposit");
-            System.out.println("3.Withdraw");
-            System.out.println("4.Exit");
+            System.out.println("\n===== ATM MENU =====");
+            System.out.println("1. Check Balance");
+            System.out.println("2. Deposit Money");
+            System.out.println("3. Withdraw Money");
+            System.out.println("4. Exit");
+            System.out.print("Enter Your Choice: ");
 
-            System.out.print("Enter choice: ");
             choice = sc.nextInt();
 
             switch (choice) {
                 case 1:
-                    System.out.println("Balance: " + account.getBalance());
+                    account.checkBalance();
                     break;
 
                 case 2:
-                    System.out.print("Enter deposit amount: ");
-                    account.deposit(sc.nextDouble());
+                    System.out.print("Enter Amount to Deposit: ₹");
+                    double depositAmount = sc.nextDouble();
+
+                    if (depositAmount > 0) {
+                        account.deposit(depositAmount);
+                    } else {
+                        System.out.println("Invalid Amount!");
+                    }
                     break;
 
                 case 3:
-                    System.out.print("Enter withdraw amount: ");
-                    account.withdraw(sc.nextDouble());
+                    System.out.print("Enter Amount to Withdraw: ₹");
+                    double withdrawAmount = sc.nextDouble();
+
+                    if (withdrawAmount > 0) {
+                        account.withdraw(withdrawAmount);
+                    } else {
+                        System.out.println("Invalid Amount!");
+                    }
                     break;
 
                 case 4:
-                    System.out.println("Thank You!");
+                    System.out.println("Thank You for Using ATM!");
                     break;
 
                 default:
                     System.out.println("Invalid Choice!");
             }
+
         } while (choice != 4);
     }
 }
 
-public class Main {
+// Main Class
+public class ATMInterface {
     public static void main(String[] args) {
-        BankAccount account = new BankAccount(1000);
-        ATM atm = new ATM(account);
+
+        BankAccount userAccount = new BankAccount(5000);
+
+        ATM atm = new ATM(userAccount);
+
         atm.showMenu();
     }
 }
